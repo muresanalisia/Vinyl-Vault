@@ -8,6 +8,6 @@ Jade: RunVinylApplication, Trade, TradeList, TradesViewController
 
 Ionela: VinylVault, Statistics, RecordViewController, CollectionViewController
 
-Anna: StartGUI, ViewHandler, VinylModelManager, Wishlist
+Anna: StartGUI, ViewHandler, VinylModelManager - start with this, Wishlist
 
 Sofia: PersonList, Grouping, GroupingList, WishlistViewController, ArchiveViewController
