@@ -1,4 +1,6 @@
 To be done by Tuesday!!
+!! Add a search function for each page that should have it (See Canva pink post-it). Make notes in "main/notes" when adding something that should be shown in astah. The search should be:
+partial search, ignore upper/lower case, find active(usually) records by title, artist, ... (all record data except for version)
 
 Alisia: Date, Record, Person, DateInterval, MyFileHandler, RecordList, TestData, other needed files not mentioned
 
