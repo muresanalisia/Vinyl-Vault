@@ -1,0 +1,45 @@
+{
+  "records": [
+    {"title": "Dancing Queen", "artist": "ABBA", "album": "Arrival", "year": 1976, "version": "Original", "genre": "Pop", "archived": false},
+    {"title": "Billie Jean", "artist": "Michael Jackson", "album": "Thriller", "year": 1982, "version": "Original", "genre": "Pop", "archived": false},
+    {"title": "Hotel California", "artist": "Eagles", "album": "Hotel California", "year": 1976, "version": "Original", "genre": "Rock", "archived": false},
+    {"title": "Superstition", "artist": "Stevie Wonder", "album": "Talking Book", "year": 1972, "version": "Original", "genre": "Soul", "archived": false},
+    {"title": "Take Five", "artist": "Dave Brubeck Quartet", "album": "Time Out", "year": 1959, "version": "Original", "genre": "Jazz", "archived": false},
+    {"title": "Bohemian Rhapsody", "artist": "Queen", "album": "A Night at the Opera", "year": 1975, "version": "Remastered (2011)", "genre": "Rock", "archived": false},
+    {"title": "Smells Like Teen Spirit", "artist": "Nirvana", "album": "Nevermind", "year": 1991, "version": "Reissue", "genre": "Rock", "archived": false},
+    {"title": "Rolling in the Deep", "artist": "Adele", "album": "21", "year": 2011, "version": "Original", "genre": "Pop", "archived": false},
+    {"title": "Lose Yourself", "artist": "Eminem", "album": "8 Mile", "year": 2002, "version": "Original", "genre": "Hip-Hop", "archived": false},
+    {"title": "Get Lucky", "artist": "Daft Punk", "album": "Random Access Memories", "year": 2013, "version": "Original", "genre": "Electronic", "archived": false},
+    {"title": "Wish You Were Here", "artist": "Pink Floyd", "album": "Wish You Were Here", "year": 1975, "version": "Remastered (2011)", "genre": "Rock", "archived": false},
+    {"title": "Respect", "artist": "Aretha Franklin", "album": "I Never Loved a Man the Way I Love You", "year": 1967, "version": "Original", "genre": "Soul", "archived": false},
+    {"title": "Redemption Song", "artist": "Bob Marley & The Wailers", "album": "Uprising", "year": 1980, "version": "Original", "genre": "Reggae", "archived": false},
+    {"title": "Stayin' Alive", "artist": "Bee Gees", "album": "Saturday Night Fever", "year": 1977, "version": "Original", "genre": "Disco", "archived": false},
+    {"title": "Like a Rolling Stone", "artist": "Bob Dylan", "album": "Highway 61 Revisited", "year": 1965, "version": "Reissue", "genre": "Folk", "archived": false},
+    {"title": "Blitzkrieg Bop", "artist": "Ramones", "album": "Ramones", "year": 1976, "version": "Original", "genre": "Punk", "archived": false},
+    {"title": "Take On Me", "artist": "a-ha", "album": "Hunting High and Low", "year": 1985, "version": "Original", "genre": "Pop", "archived": false},
+    {"title": "Alright", "artist": "Kendrick Lamar", "album": "To Pimp a Butterfly", "year": 2015, "version": "Original", "genre": "Hip-Hop", "archived": false},
+    {"title": "A Love Supreme, Pt. I", "artist": "John Coltrane", "album": "A Love Supreme", "year": 1965, "version": "Remastered", "genre": "Jazz", "archived": false},
+    {"title": "Paranoid Android", "artist": "Radiohead", "album": "OK Computer", "year": 1997, "version": "Reissue (2016)", "genre": "Rock", "archived": false},
+    {"title": "Lovely Day", "artist": "Bill Withers", "album": "Menagerie", "year": 1977, "version": "Original", "genre": "Soul", "archived": false},
+    {"title": "Heroes", "artist": "David Bowie", "album": "Heroes", "year": 1977, "version": "Remastered", "genre": "Rock", "archived": false},
+    {"title": "Purple Haze", "artist": "Jimi Hendrix", "album": "Are You Experienced", "year": 1967, "version": "Reissue", "genre": "Rock", "archived": true},
+    {"title": "Fast Car", "artist": "Tracy Chapman", "album": "Tracy Chapman", "year": 1988, "version": "Original", "genre": "Folk", "archived": true},
+    {"title": "Africa", "artist": "Toto", "album": "Toto IV", "year": 1982, "version": "Original", "genre": "Rock", "archived": true}
+  ],
+  "wishlist": [
+    {"title": "So What", "artist": "Miles Davis", "album": "Kind of Blue", "year": 1959, "version": "Remastered (2009)", "genre": "Jazz", "archived": false},
+    {"title": "Dreams", "artist": "Fleetwood Mac", "album": "Rumours", "year": 1977, "version": "Original", "genre": "Rock", "archived": false},
+    {"title": "Purple Rain", "artist": "Prince", "album": "Purple Rain", "year": 1984, "version": "Original", "genre": "Pop", "archived": false},
+    {"title": "What's Going On", "artist": "Marvin Gaye", "album": "What's Going On", "year": 1971, "version": "Original", "genre": "Soul", "archived": false},
+    {"title": "Time", "artist": "Pink Floyd", "album": "The Dark Side of the Moon", "year": 1973, "version": "Remastered (2011)", "genre": "Rock", "archived": false},
+    {"title": "A Case of You", "artist": "Joni Mitchell", "album": "Blue", "year": 1971, "version": "Original", "genre": "Folk", "archived": false}
+  ],
+  "persons": [
+    {"name": "Anna Hliuza", "email": "anna@mail.dk", "phone": "12345678"},
+    {"name": "Jade Jensen", "email": "jade@mail.dk", "phone": "23456789"},
+    {"name": "Ionela Lefter", "email": "ionela@mail.dk", "phone": "34567890"},
+    {"name": "Sofia Mocanu", "email": "sofia@mail.dk", "phone": "45678901"},
+    {"name": "Mads Nielsen", "email": "mads@mail.dk", "phone": "56789012"},
+    {"name": "Freja Larsen", "email": "freja@mail.dk", "phone": "67890123"}
+  ]
+}
