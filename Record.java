@@ -79,7 +79,7 @@ public class Record {
 
   public boolean equals(Object object)
   {
-    if(object.getClass() == null || object.getClass() != this.getClass())
+    if(object == null || object.getClass() != this.getClass())
       return false;
 
     Record other = (Record) object;
