@@ -29,7 +29,7 @@ public class DateInterval
 
   public boolean equals(Object obj)
   {
-    if(obj.getClass() == null || obj.getClass() != getClass())
+    if(obj == null || obj.getClass() != getClass())
       return false;
     DateInterval other = (DateInterval) obj;
     return(other.dueDate.equals(dueDate) && other.startDate.equals(startDate));
