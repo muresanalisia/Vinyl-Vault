@@ -41,7 +41,7 @@ public class Person
 
   public boolean equals(Object obj)
   {
-    if(obj.getClass() == null || obj.getClass() != getClass())
+    if(obj == null || obj.getClass() != getClass())
       return false;
     Person other = (Person) obj;
     return (other.name.equals(name) && other.email.equals(email)
