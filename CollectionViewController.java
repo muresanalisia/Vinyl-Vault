@@ -1,5 +1,3 @@
-package view;
-
 import javafx.scene.layout.Region;
 
 public class CollectionViewController
