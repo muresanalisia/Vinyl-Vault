@@ -1,3 +1,5 @@
 Alisia -- I modified the astah to add some functions to the Date class
 -- same for DateInterval, i added attributes and setStartDate()
 -- i modified the search() from RecordList
+
+Jade -- TradeList has public ArrayList<Trade> search(String field, String text)
