@@ -6,7 +6,8 @@ public class RecordList
   private ArrayList<Record> recordList;
   public RecordList()
   {
-    this.recordList = null;
+    this.recordList = new ArrayList<>();
+    //this.recordList = null;
   }
 
   public void addRecord(Record record)
