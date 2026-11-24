@@ -5,7 +5,7 @@ public class RecordList
   private ArrayList<Record> recordList;
   public RecordList()
   {
-    this.recordList = null;
+    this.recordList = new ArrayList<>();
   }
 
   public void addRecord(Record record)
@@ -92,6 +92,7 @@ public class RecordList
             break;
           case "Genre":
             toSearch = record.getGenre();
+            break;
           case "Barcode":
             toSearch = record.getBarcode();
             break;
