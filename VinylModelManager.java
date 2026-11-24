@@ -65,7 +65,8 @@ public class VinylModelManager {
         saveVinylVault(vinylVault);
     }
 
-    public ArrayList<Record> searchRecords(String text){return vinylVault.getAllRecords().search(text);
+    public ArrayList<Record> searchRecords(String text){
+        return vinylVault.getAllRecords().search(text);
     }
 
     public ArrayList<Record> getRecordsByGenre(String genre){
