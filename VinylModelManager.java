@@ -7,7 +7,7 @@ public class VinylModelManager {
     public VinylModelManager(String fileName) {
         this.fileName = fileName;
 
-        Object object = MyFileHandler.readfromBinaryFile(fileName);
+        Object object = MyFileHandler.readFromBinaryFile(fileName);
 
         if(object instanceof VinylVault){
             vinylVault = (VinylVault) object;
@@ -22,7 +22,7 @@ public class VinylModelManager {
     }
 
     public void saveVinylVault(VinylVault vault){
-        MyFileHandler.writeFromBinaryFile(fileName, vault);
+        MyFileHandler.writeToBinaryFile(fileName, vault);
     }
 
     //Records
@@ -51,17 +51,17 @@ public class VinylModelManager {
 
     //Wishlist
     public void addToWishlist(Record record){
-        vinylVault.getAllWishlist().addRecord(record);
+        vinylVault.getAllWishlists().addRecord(record);
         saveVinylVault(vinylVault);
     }
 
     public void removeFromWishlist(Record record){
-        vinylVault.getAllWishlist().removeRecord(record);
+        vinylVault.getAllWishlists().removeRecord(record);
         saveVinylVault(vinylVault);
     }
 
     public void moveToCollection(Record record){
-        vinylVault.getAllWishlist().removeRecord(record);
+        vinylVault.getAllWishlists().removeRecord(record);
         vinylVault.getAllRecords().addRecord(record);
 
         saveVinylVault(vinylVault);
