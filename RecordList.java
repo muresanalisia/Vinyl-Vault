@@ -1,13 +1,11 @@
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class RecordList
 {
   private ArrayList<Record> recordList;
   public RecordList()
   {
-    this.recordList = new ArrayList<>();
-    //this.recordList = null;
+    this.recordList = null;
   }
 
   public void addRecord(Record record)
@@ -86,9 +84,6 @@ public class RecordList
           case "Artist":
             toSearch = record.getArtist();
             break;
-          case "Album":
-            toSearch = record.getAlbum();
-            break;
           case "Year":
             toSearch = "" + record.getYear();
             break;
@@ -97,14 +92,16 @@ public class RecordList
             break;
           case "Genre":
             toSearch = record.getGenre();
+          case "Barcode":
+            toSearch = record.getBarcode();
             break;
           default:
-            toSearch = toSearch = record.getTitle() + " "
+            toSearch = record.getTitle() + " "
                 + record.getArtist() + " "
-                + record.getAlbum() + " "
                 + record.getYear() + " "
                 + record.getVersion() + " "
-                + record.getGenre();
+                + record.getGenre() + " "
+                + record.getBarcode();
         }
         if(toSearch.toLowerCase().contains(searchText))
           results.add(record);
@@ -112,5 +109,4 @@ public class RecordList
     }
     return results;
   }
-
 }
