@@ -6,5 +6,7 @@ Alisia
 -- i'm fixing the errors from the first error report
 -- I added BARCODE to Record and REMOVED ALBUM. -> the records are albums in themselves
 -- Artist can be multiple artists (it's a string)
+-- Search works by searching by all fields (default), title, artist, year, version, genre, barcode (these are on a dropdown). 
+-- you may also check if you want to include/exclude archived records from the list
 
 Jade -- TradeList has public ArrayList<Trade> search(String field, String text)
