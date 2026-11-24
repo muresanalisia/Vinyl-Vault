@@ -1,22 +1,21 @@
 public class Record {
-  private String title, artist, album, version, genre;
+  private String title, artist, version, genre, barcode;
   private int year;
   private boolean archived;
 
-  public Record(String title, String artist, String album, int year, String version, String genre) {
+  public Record(String title, String artist,  int year, String version, String genre, String barcode) {
     this.title = title;
     this.artist = artist;
-    this.album = album;
     this.year = year;
     this.version = version;
     this.genre = genre;
     this.archived = false;
+    this.barcode = barcode;
   }
 
   public String getTitle() {
     return title;
   }
-
   public void setTitle(String title) {
     this.title = title;
   }
@@ -27,14 +26,6 @@ public class Record {
 
   public void setArtist(String artist) {
     this.artist = artist;
-  }
-
-  public String getAlbum() {
-    return album;
-  }
-
-  public void setAlbum(String album) {
-    this.album = album;
   }
 
   public int getYear() {
@@ -61,6 +52,16 @@ public class Record {
     this.genre = genre;
   }
 
+  public String getBarcode()
+  {
+    return this.barcode;
+  }
+
+  public void setBarcode()
+  {
+    this.barcode = barcode;
+  }
+
   public String getDecade() {
     return (year / 10) * 10 + "s";
   }
@@ -84,16 +85,16 @@ public class Record {
 
     Record other = (Record) object;
     return year == other.year && archived == other.archived && this.title.equals(other.title) && this.artist.equals(other.artist) &&
-        this.album.equals(other.album) && this.version.equals(other.version) && this.genre.equals(other.genre);
+         this.version.equals(other.version) && this.genre.equals(other.genre);
   }
 
   public String toString() {
     return
-        "Title='" + title + '\n' +
-        "Artist='" + artist + '\n' +
-        "Album='" + album + '\n' +
-        "Year=" + year + '\n'+
-        "Version='" + version + '\n' +
-        "Genre='" + genre + '\n';
+        "Title ='" + title + '\n' +
+        "Artist ='" + artist + '\n' +
+        "Year =" + year + '\n'+
+        "Version ='" + version + '\n' +
+        "Genre ='" + genre + '\n' +
+        "Barcode = " + barcode;
   }
 }
