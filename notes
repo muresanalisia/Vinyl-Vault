@@ -1,5 +1,10 @@
-Alisia -- I modified the astah to add some functions to the Date class
+Alisia 
+-- I modified the astah to add some functions to the Date class
 -- same for DateInterval, i added attributes and setStartDate()
 -- i modified the search() from RecordList
+-- i modified the Record, but need more modifications after fixing all errors
+-- i'm fixing the errors from the first error report
+-- I added BARCODE to Record and removed Album. -> the records are albums in themselves
+-- Artist can be multiple artists (it's a string)
 
 Jade -- TradeList has public ArrayList<Trade> search(String field, String text)
