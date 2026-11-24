@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class VinylModelManager {
@@ -7,13 +9,30 @@ public class VinylModelManager {
     public VinylModelManager(String fileName) {
         this.fileName = fileName;
 
-        Object object = MyFileHandler.readFromBinaryFile(fileName);
+        VinylVault loaded = null;
 
-        if(object instanceof VinylVault){
-            vinylVault = (VinylVault) object;
+        try{
+            Object object = MyFileHandler.readFromBinaryFile(fileName);
+
+            if(object instanceof VinylVault){
+                loaded = (VinylVault) object;
+            }
         }
+
+        catch (FileNotFoundException e){
+            //First start, no files yet
+        }
+
+        catch(IOException | ClassNotFoundException e){
+            System.out.println("Could not find the file: " + e.getMessage());
+        }
+
+        if(loaded != null){
+            this.vinylVault = loaded;
+        }
+
         else{
-            vinylVault = new VinylVault();
+            this.vinylVault = new VinylVault();
         }
     }
 
@@ -22,7 +41,12 @@ public class VinylModelManager {
     }
 
     public void saveVinylVault(VinylVault vault){
-        MyFileHandler.writeToBinaryFile(fileName, vault);
+        try{
+            MyFileHandler.writeToBinaryFile(fileName, vault);
+        }
+        catch(IOException e){
+            System.out.println("Could not save file: "+e.getMessage());
+        }
     }
 
     //Records
@@ -41,8 +65,7 @@ public class VinylModelManager {
         saveVinylVault(vinylVault);
     }
 
-    public ArrayList<Record> searchRecords(String text){
-        return vinylVault.getAllRecords().search(text);
+    public ArrayList<Record> searchRecords(String text){return vinylVault.getAllRecords().search(text);
     }
 
     public ArrayList<Record> getRecordsByGenre(String genre){
@@ -70,7 +93,8 @@ public class VinylModelManager {
     //Loans
 
     public void lendRecord(Record record, Person person, DateInterval interval, double deposit){
-        Trade trade = new Trade("Lent out", record, person, interval, deposit);
+        //Validation
+        Trade trade = new Trade("Lent", record, person, interval, deposit);
         vinylVault.getAllTrades().addTrade(trade);
         saveVinylVault(vinylVault);
     }
@@ -99,7 +123,7 @@ public class VinylModelManager {
     }
 
     public void removeRecordFromGrouping(Record record, Grouping grouping){
-        grouping.archive();
+        grouping.removeRecord(record);
         saveVinylVault(vinylVault);
     }
 
@@ -119,8 +143,3 @@ public class VinylModelManager {
         return new Statistics();
     }
 }
-
-
-
-
-
