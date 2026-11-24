@@ -8,6 +8,6 @@ Alisia
 -- Artist can be multiple artists (it's a string)
 -- Search works by searching by all fields (default), title, artist, year, version, genre, barcode (these are on a dropdown). 
 -- you may also check if you want to include/exclude archived records from the list
--- we don't have a way to add/delete record yet. i added them to canva, but not in code yet
+-- we don't have a way to add/delete records, groupings, items from wishlist yet. i added them to canva, but not in code yet
 
 Jade -- TradeList has public ArrayList<Trade> search(String field, String text)
