@@ -57,7 +57,7 @@ public class Record {
     return this.barcode;
   }
 
-  public void setBarcode()
+  public void setBarcode(String barcode)
   {
     this.barcode = barcode;
   }
@@ -84,8 +84,8 @@ public class Record {
       return false;
 
     Record other = (Record) object;
-    return year == other.year && archived == other.archived && this.title.equals(other.title) && this.artist.equals(other.artist) &&
-         this.version.equals(other.version) && this.genre.equals(other.genre);
+    return year == other.year && archived == other.archived && this.title.equals(other.title) && this.artist.equals(other.artist)
+        && this.barcode.equals(other.barcode) && this.version.equals(other.version) && this.genre.equals(other.genre);
   }
 
   public String toString() {
