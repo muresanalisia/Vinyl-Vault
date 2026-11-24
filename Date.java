@@ -26,14 +26,18 @@ public class Date
     return year;
   }
 
-  public boolean isBefore(Date date2)
+  public boolean isBefore(Date other)
   {
-    if(date2.year < year)
-      return true;
-    else if(date2.month < month)
-      return true;
-    else
-      return date2.day < day;
+    if (year != other.year)
+      return year < other.year;
+    if (month != other.month)
+      return month < other.month;
+    return day < other.day;
+  }
+
+  public boolean after(Date other)
+  {
+    return other.isBefore(this);
   }
 
   public int daysUntil(Date date)
@@ -68,7 +72,7 @@ public class Date
     return day + "." + month + "." + year;
   }
 
-  public boolean isLeapYear()
+  public static boolean isLeapYear(int year)
   {
     if (year %4 != 0)
       return false;
@@ -80,17 +84,18 @@ public class Date
       return true;
   }
 
-  public int daysInMonth(int m, int year)
+  public static int daysInMonth(int month, int year)
   {
-    if(month == 2)
-      if(isLeapYear())
-        return 29;
-      else return 28;
-    else if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 11)
-      return 31;
-    else
+    switch (month)
     {
-      return 30;
+      case 2:
+        return isLeapYear(year) ? 29 : 28;
+      case 4, 6, 9, 11:
+        return 30;
+      case 1, 3, 5, 7, 8, 10, 12:
+        return 31;
+      default:
+        throw new IllegalArgumentException("Invalid month: " + month);
     }
   }
 
@@ -98,7 +103,7 @@ public class Date
   {
     int total = this.day;
     for (int y = 1; y < this.year; y++) {
-      if(isLeapYear())
+      if(isLeapYear(y))
         total += 366;
       else total += 365;
     }
@@ -107,6 +112,4 @@ public class Date
     }
     return total;
   }
-
-
 }
