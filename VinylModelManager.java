@@ -164,4 +164,29 @@ public void removeTrade(Trade trade) {
     public Statistics getStatistics(){
         return new Statistics();
     }
+
+    private Record findRecordByBarcode(String barcode)
+    {
+    for (Record record : vinylVault.getAllRecords().getAllRecords())
+    {
+        if (record.getBarcode().equals(barcode))
+        {
+            return record;
+        }
+    }
+
+    return null;
+    }
+
+    private Person findPersonByEmail(String email)
+    {
+    for (Person person : vinylVault.getAllPersons().getAllPersons())
+    {
+        if (person.getEmail().equals(email))
+        {
+            return person;
+        }
+    }
+    return null;
+    }
 }
