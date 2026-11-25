@@ -39,4 +39,11 @@ public class VinylVault
   {
     return allPersons;
   }
+
+  // false if something is missing, e.g. after loading a damaged file
+  public boolean isComplete()
+  {
+    return allPersons != null && allTrades != null && allRecords != null
+        && allWishlist != null && allGroupings != null;
+  }
 }
