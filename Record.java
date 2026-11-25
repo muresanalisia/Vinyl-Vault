@@ -1,11 +1,14 @@
+import java.util.ArrayList;
+
 public class Record {
-  private String title, artist, version, genre, barcode;
+  private String title, version, genre, barcode;
   private int year;
   private boolean archived;
+  private ArrayList<String> artists;
 
-  public Record(String title, String artist,  int year, String version, String genre, String barcode) {
+  public Record(String title, ArrayList<String> artists,  int year, String version, String genre, String barcode) {
     this.title = title;
-    this.artist = artist;
+    this.artists = new ArrayList<>(artists);
     this.year = year;
     this.version = version;
     this.genre = genre;
@@ -20,12 +23,12 @@ public class Record {
     this.title = title;
   }
 
-  public String getArtist() {
-    return artist;
+  public ArrayList<String> getArtists() {
+    return artists;
   }
 
-  public void setArtist(String artist) {
-    this.artist = artist;
+  public void setArtists(ArrayList<String> artists) {
+    this.artists = new ArrayList<>(artists);
   }
 
   public int getYear() {
@@ -84,14 +87,14 @@ public class Record {
       return false;
 
     Record other = (Record) object;
-    return year == other.year && archived == other.archived && this.title.equals(other.title) && this.artist.equals(other.artist)
+    return year == other.year && archived == other.archived && this.title.equals(other.title) && this.artists.equals(other.artists)
         && this.barcode.equals(other.barcode) && this.version.equals(other.version) && this.genre.equals(other.genre);
   }
 
   public String toString() {
     return
         "Title ='" + title + '\n' +
-        "Artist ='" + artist + '\n' +
+        "Artist(s) ='" + artists + '\n' +
         "Year =" + year + '\n'+
         "Version ='" + version + '\n' +
         "Genre ='" + genre + '\n' +
