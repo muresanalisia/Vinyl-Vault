@@ -129,7 +129,11 @@ public class TradeList implements Serializable
     public ArrayList<Trade> search(String field, String text)
     {
     ArrayList<Trade> results = new ArrayList<>();
+    if(text == null)
+        return results;
     String searchText = text.toLowerCase().trim();
+    if(searchText.isEmpty())
+        return results;
 
     for(Trade trade : tradeList)
     {
@@ -166,19 +170,19 @@ public class TradeList implements Serializable
             break;
 
         case "Deposit":
-            toSearch = "" + trade.getDeposit();
+            toSearch = String.valueOf(trade.getDeposit());
             break;
 
         case "Start date":
-            toSearch = "" + trade.getDateInterval().getStartDate();
+            toSearch = String.valueOf(trade.getDateInterval().getStartDate());
             break;
 
         case "Due date":
-            toSearch = "" + trade.getDateInterval().getDueDate();
+            toSearch = String.valueOf(trade.getDateInterval().getDueDate());
             break;
 
         case "Return date":
-            toSearch = "" + trade.getReturnDate();
+            toSearch = String.valueOf(trade.getReturnDate());
             break;
 
         default:
@@ -195,8 +199,11 @@ public class TradeList implements Serializable
                 + trade.getReturnDate();
         }
 
-        if(toSearch.toLowerCase().contains(searchText))
-        results.add(trade);
+        if(toSearch != null &&
+           toSearch.toLowerCase().contains(searchText))
+        {
+            results.add(trade);
+        }
     }
 
     return results;
