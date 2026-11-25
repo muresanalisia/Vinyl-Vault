@@ -22,7 +22,6 @@ public class RecordViewController implements ViewController
   @FXML private VBox loanBox;
   @FXML private Label personLabel;
   @FXML private Label contactLabel;
-  @FXML private Label depositLabel;
   @FXML private Label dueDateLabel;
   @FXML private Button archiveButton;
 
@@ -68,7 +67,6 @@ public class RecordViewController implements ViewController
       personLabel.setText((trade.isLent() ? "Lent to: " : "Borrowed from: ")
           + trade.getPerson().getName());
       contactLabel.setText("Contact: " + trade.getPerson().getContact());
-      depositLabel.setText("Deposit: " + trade.getDeposit());
       dueDateLabel.setText("Due date: " + trade.getDateInterval().getEndDate());
       loanBox.setVisible(true);
       loanBox.setManaged(true);
