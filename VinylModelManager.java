@@ -29,6 +29,7 @@ public class VinylModelManager {
 
         if(loaded != null){
             this.vinylVault = loaded;
+            relinkTrades();
         }
 
         else{
@@ -188,5 +189,23 @@ public void removeTrade(Trade trade) {
         }
     }
     return null;
+    }
+
+    private void relinkTrades()
+    {
+    for (Trade trade : vinylVault.getAllTrades().getAllTrades())
+    {
+        Record record = findRecordByBarcode(
+            trade.getRecordBarcode());
+
+        Person person = findPersonByEmail(
+            trade.getPersonEmail());
+        if (record == null || person == null)
+        {
+            throw new IllegalStateException(
+                "Could not restore trade relationships.");
+        }
+        trade.relink(record, person);
+    }
     }
 }
