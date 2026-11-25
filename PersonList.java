@@ -6,11 +6,13 @@ public class PersonList {
   public PersonList() {
     this.persons = new ArrayList<>();
   }
-
+  
   public void addPerson(Person person) {
-    if (person != null) {
-      persons.add(person);
-    }
+    if (person == null)
+      throw new IllegalArgumentException("Person cannot be null");
+    if (persons.contains(person))
+      throw new IllegalArgumentException("This person already exists");
+    persons.add(person);
   }
 
   public void removePerson(Person person) {
@@ -30,7 +32,24 @@ public class PersonList {
     return null;
   }
 
-  public ArrayList<Person> getAllPersons() { // return a copy or the og?
+  public Person find(Person person) {
+    int index = persons.indexOf(person);
+    if (index == -1 ){
+      return null;
+    }
+    return person.get(index);
+  }
+
+  public Person getPersonByEmail(String email) {
+    for (Person person : persons) {
+      if (person.getEmail().equalsIgnoreCase(email)) {
+        return person;
+      }
+    }
+    return null;
+  }
+
+  public ArrayList<Person> getAllPersons() {
     return new ArrayList<>(persons);
   }
 
