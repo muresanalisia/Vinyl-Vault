@@ -2,18 +2,19 @@ import java.util.ArrayList;
 
 public class Statistics
 {
+  // Ionela-6: only lent trades count
   public ArrayList<Record> getMostLentOutRecords(TradeList trades)
   {
-    ArrayList<Record> records = new ArrayList<>();
-    ArrayList<Integer> counts = new ArrayList<>();
-
     if (trades == null || trades.size() == 0)
       return new ArrayList<>();
+
+    ArrayList<Record> records = new ArrayList<>();
+    ArrayList<Integer> counts = new ArrayList<>();
 
     for (int i = 0; i < trades.size(); i++)
     {
       Trade trade = trades.getTrade(i);
-      if (trade == null || !trade.isLent())
+      if (!trade.isLent())
         continue;
 
       Record record = trade.getRecord();
@@ -28,155 +29,102 @@ public class Statistics
     }
 
     int maxCount = 0;
-    for (int i = 0; i < counts.size(); i++)
-    {
-      if (counts.get(i) > maxCount)
-        maxCount = counts.get(i);
-    }
+    for (int count : counts)
+      if (count > maxCount)
+        maxCount = count;
 
     ArrayList<Record> mostLent = new ArrayList<>();
     for (int i = 0; i < records.size(); i++)
-    {
       if (counts.get(i) == maxCount && maxCount > 0)
         mostLent.add(records.get(i));
-    }
 
     return mostLent;
   }
 
+  // Ionela-7: only active (non-archived) records
   public String[] getMostCommonGenres(RecordList records)
   {
-    if (records == null)
-      return new String[0];
-
-    RecordList activeRecords = records.getActiveRecords();
-    if (activeRecords == null || activeRecords.size() == 0)
-      return new String[0];
-
-    ArrayList<String> genres = new ArrayList<>();
-    for (int i = 0; i < activeRecords.size(); i++)
-    {
-      Record record = activeRecords.getRecord(i);
-      if (record != null && record.getGenre() != null && !record.getGenre().isEmpty())
-      {
-        genres.add(record.getGenre());
-      }
-    }
-
-    return mostCommon(genres).toArray(new String[0]);
+    ArrayList<String> values = new ArrayList<>();
+    if (records != null)
+      for (Record r : records.getActiveRecords())
+        values.add(r.getGenre());
+    return mostCommon(values);
   }
 
   public String[] getMostCommonDecades(RecordList records)
   {
-    if (records == null)
-      return new String[0];
-
-    RecordList activeRecords = records.getActiveRecords();
-    if (activeRecords == null || activeRecords.size() == 0)
-      return new String[0];
-
-    ArrayList<String> decades = new ArrayList<>();
-    for (int i = 0; i < activeRecords.size(); i++)
-    {
-      Record record = activeRecords.getRecord(i);
-      if (record != null && record.getDecade() != null && !record.getDecade().isEmpty())
-      {
-        decades.add(record.getDecade());
-      }
-    }
-
-    return mostCommon(decades).toArray(new String[0]);
+    ArrayList<String> values = new ArrayList<>();
+    if (records != null)
+      for (Record r : records.getActiveRecords())
+        values.add(r.getDecade());
+    return mostCommon(values);
   }
 
   public String[] getMostCommonArtists(RecordList records)
   {
-    if (records == null)
-      return new String[0];
-
-    RecordList activeRecords = records.getActiveRecords();
-    if (activeRecords == null || activeRecords.size() == 0)
-      return new String[0];
-
-    ArrayList<String> artists = new ArrayList<>();
-    for (int i = 0; i < activeRecords.size(); i++)
-    {
-      Record record = activeRecords.getRecord(i);
-      if (record != null && record.getArtist() != null && !record.getArtist().isEmpty())
-      {
-        artists.add(record.getArtist());
-      }
-    }
-
-    return mostCommon(artists).toArray(new String[0]);
+    ArrayList<String> values = new ArrayList<>();
+    if (records != null)
+      for (Record r : records.getActiveRecords())
+        values.add(r.getArtist());
+    return mostCommon(values);
   }
 
-  // Private helper that handles the counting and finding max occurrences
-  private ArrayList<String> mostCommon(ArrayList<String> items)
+  // Ionela-8: the one shared counting helper
+  private String[] mostCommon(ArrayList<String> values)
   {
-    ArrayList<String> uniqueItems = new ArrayList<>();
+    ArrayList<String> distinct = new ArrayList<>();
     ArrayList<Integer> counts = new ArrayList<>();
 
-    if (items == null || items.isEmpty())
-      return new ArrayList<>();
-
-    for (int i = 0; i < items.size(); i++)
+    for (String value : values)
     {
-      String item = items.get(i);
-      if (item == null || item.isEmpty())
+      if (value == null || value.isEmpty())
         continue;
-
-      int index = uniqueItems.indexOf(item);
+      int index = distinct.indexOf(value);
       if (index != -1)
         counts.set(index, counts.get(index) + 1);
       else
       {
-        uniqueItems.add(item);
+        distinct.add(value);
         counts.add(1);
       }
     }
 
     int maxCount = 0;
-    for (int i = 0; i < counts.size(); i++)
-    {
-      if (counts.get(i) > maxCount)
-        maxCount = counts.get(i);
-    }
+    for (int count : counts)
+      if (count > maxCount)
+        maxCount = count;
 
     ArrayList<String> result = new ArrayList<>();
-    for (int i = 0; i < uniqueItems.size(); i++)
-    {
+    for (int i = 0; i < distinct.size(); i++)
       if (counts.get(i) == maxCount && maxCount > 0)
-        result.add(uniqueItems.get(i));
-    }
+        result.add(distinct.get(i));
 
-    return result;
+    return result.toArray(new String[0]);
   }
 
+  // Ionela-3/4/5: no Date or isOverDue needed any more
   public double getReliability(Person person, TradeList trades)
   {
     if (person == null || trades == null || trades.size() == 0)
       return 100.0;
 
-    int totalLentAndReturned = 0;
-    int totalReturnedOnTime = 0;
+    int totalReturned = 0;
+    int totalOnTime = 0;
 
     for (int i = 0; i < trades.size(); i++)
     {
       Trade trade = trades.getTrade(i);
-      if (trade != null
-          && person.equals(trade.getPerson())
-          && trade.isLent()
-          && trade.isReturned())
+      if (trade.getPerson().equals(person) && trade.isLent() && trade.isReturned())
       {
-        totalLentAndReturned++;
+        totalReturned++;
         if (!trade.isReturnedLate())
-          totalReturnedOnTime++;
+          totalOnTime++;
       }
     }
 
-    if (totalLentAndReturned == 0)
+    if (totalReturned == 0)
       return 100.0;
 
-    return ((double) totalReturnedOnTime / totalLentAndReturned) * 100.0;
+    return ((double) totalOnTime / totalReturned) * 100.0;
   }
 }
