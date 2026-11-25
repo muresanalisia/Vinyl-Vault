@@ -46,4 +46,5 @@ public class VinylVault
     return allPersons != null && allTrades != null && allRecords != null
         && allWishlist != null && allGroupings != null;
   }
+  
 }
