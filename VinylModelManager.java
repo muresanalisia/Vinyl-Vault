@@ -93,6 +93,27 @@ public class VinylModelManager {
 
     //Loans
 
+    public ArrayList<Trade> getAllTrades() {
+    return vinylVault.getAllTrades().getAllTrades();
+}
+
+public ArrayList<Trade> getActiveLentTrades() {
+    return vinylVault.getAllTrades().getActiveLentTrades();
+}
+
+public ArrayList<Trade> getActiveBorrowedTrades() {
+    return vinylVault.getAllTrades().getActiveBorrowedTrades();
+}
+
+public ArrayList<Trade> getTradeHistory() {
+    return vinylVault.getAllTrades().getHistory();
+}
+
+public void removeTrade(Trade trade) {
+    vinylVault.getAllTrades().removeTrade(trade);
+    saveVinylVault(vinylVault);
+}
+
     public void lendRecord(Record record, Person person, DateInterval interval, double deposit){
         //Validation
         Trade trade = new Trade("Lent", record, person, interval, deposit);
