@@ -52,11 +52,25 @@ public class VinylModelManager {
 
     //Records
     public void addRecord(Record record){
+        if(vinylVault.getAllRecords().findSameVinyl(record) != null){
+            throw new IllegalStateException("This record is already in the collection.");
+        }
         vinylVault.getAllRecords().addRecord(record);
         saveVinylVault(vinylVault);
     }
 
+    public void removeRecord(Record record){
+        if(getActiveTradeForRecord(record) != null){
+            throw new IllegalStateException("Return the record before removing it.");
+        }
+        vinylVault.getAllRecords().removeRecord(record);
+        saveVinylVault(vinylVault);
+    }
+
     public void archiveRecord(Record record){
+        if(getActiveTradeForRecord(record) != null){
+            throw new IllegalStateException("Return the record before archiving it.");
+        }
         record.archive();
         saveVinylVault(vinylVault);
     }
@@ -66,8 +80,8 @@ public class VinylModelManager {
         saveVinylVault(vinylVault);
     }
 
-    public ArrayList<Record> searchRecords(String text){
-        return vinylVault.getAllRecords().search(text);
+    public ArrayList<Record> searchRecords(String field,String text, boolean includeArchive){
+        return vinylVault.getAllRecords().search(field, text, includeArchive);
     }
 
     //Wishlist
@@ -104,49 +118,42 @@ public class VinylModelManager {
     return "In collection";
     }
 
-    if (getActiveTradeForRecord(record) != null)
-    {
-    // Reject archiving/removal
-    return false;
-    }
-
     //Loans
 
     public ArrayList<Trade> getAllTrades() {
-    return vinylVault.getAllTrades().getAllTrades();
-}
+        return vinylVault.getAllTrades().getAllTrades();
+    }
 
-public ArrayList<Trade> getActiveLentTrades() {
-    return vinylVault.getAllTrades().getActiveLentTrades();
-}
+    public ArrayList<Trade> getActiveLentTrades() {
+        return vinylVault.getAllTrades().getActiveLentTrades();
+    }
 
-public ArrayList<Trade> getActiveBorrowedTrades() {
-    return vinylVault.getAllTrades().getActiveBorrowedTrades();
-}
+    public ArrayList<Trade> getActiveBorrowedTrades() {
+        return vinylVault.getAllTrades().getActiveBorrowedTrades();
+    }
 
-public ArrayList<Trade> getTradeHistory() {
-    return vinylVault.getAllTrades().getHistory();
-}
+    public ArrayList<Trade> getTradeHistory() {
+        return vinylVault.getAllTrades().getHistory();
+    }
 
-public void removeTrade(Trade trade) {
-    vinylVault.getAllTrades().removeTrade(trade);
-    saveVinylVault(vinylVault);
-}
+    public void removeTrade(Trade trade) {
+        vinylVault.getAllTrades().removeTrade(trade);
+        saveVinylVault(vinylVault);
+    }
 
-    public Trade getActiveTradeForRecord(Record record)
-{
-    return vinylVault.getAllTrades().getActiveTradeForRecord(record);
-}
+    public Trade getActiveTradeForRecord(Record record) {
+        return vinylVault.getAllTrades().getActiveTradeForRecord(record);
+    }
 
-public boolean isRecordBorrowed(Record record)
+    public boolean isRecordBorrowed(Record record)
 {
     return vinylVault.getAllTrades().isRecordBorrowed(record);
 }
 
-public boolean hasActiveTradeWithPerson(Person person)
-{
-    return vinylVault.getAllTrades().hasActiveTradeWithPerson(person);
-}
+    public boolean hasActiveTradeWithPerson(Person person)
+    {
+        return vinylVault.getAllTrades().hasActiveTradeWithPerson(person);
+    }
 
     public void lendRecord(Record record, Person person, DateInterval interval, double deposit){
         //Validation
@@ -190,14 +197,11 @@ public boolean hasActiveTradeWithPerson(Person person)
     }
 
     public void removePerson(Person person){
+        if(hasActiveTradeWithPerson(person)){
+            throw new IllegalStateException("Return all records before removing this person.");
+        }
         vinylVault.getAllPersons().removePerson(person);
         saveVinylVault(vinylVault);
-    }
-
-    if (hasActiveTradeWithPerson(person))
-    {
-        // Reject removal
-        return false;
     }
 
     //Statistics
