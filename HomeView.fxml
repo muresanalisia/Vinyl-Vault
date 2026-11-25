@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="20" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="HomeViewController">
+    <padding><Insets top="30" right="30" bottom="30" left="30"/></padding>
+
+    <Label text="Vinyl Vault" style="-fx-font-size: 32px; -fx-font-weight: bold;"/>
+    <Label text="Your record collection, wishlist and trades in one place."/>
+
+    <FlowPane hgap="10" vgap="10" alignment="CENTER">
+        <Label fx:id="recordCountLabel" prefWidth="220" wrapText="true"
+               style="-fx-border-color: gray; -fx-padding: 12;"/>
+        <Label fx:id="overdueLabel" prefWidth="220" wrapText="true"
+               style="-fx-border-color: gray; -fx-padding: 12;"/>
+    </FlowPane>
+
+    <FlowPane hgap="10" vgap="10" alignment="CENTER">
+        <Button text="My collection" prefWidth="160" onAction="#onCollection"/>
+        <Button text="Wishlist" prefWidth="160" onAction="#onWishlist"/>
+        <Button text="Archive" prefWidth="160" onAction="#onArchive"/>
+        <Button text="Add record" prefWidth="160" onAction="#onAddRecord"/>
+    </FlowPane>
+</VBox>
