@@ -1,6 +1,6 @@
 <VBox spacing="10"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="your.package.TradesViewController"
+      fx:controller="TradesViewController"
       fx:id="root">
 
     <Label text="Trades" />
