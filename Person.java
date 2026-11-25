@@ -4,9 +4,33 @@ public class Person
 
   public Person (String name, String email, String phone)
   {
-    this.name = name;
-    this.email = email;
-    this.phone = phone;
+    this.name = checkName(name);
+    this.email = checkEmail(email);
+    this.phone = checkPhone(phone);
+  }
+
+  private static String checkName(String name)
+  {
+    if (name == null || name.isBlank())
+      throw new IllegalArgumentException("Name is required");
+    return name.trim();
+  }
+
+  private static String checkEmail(String email)
+  {
+    if (email == null || !email.trim().matches("[^@\\s]+@[^@\\s]+\\.[^@\\s]+"))
+      throw new IllegalArgumentException("Invalid email format.");
+    return email.trim();
+  }
+
+  private static String checkPhone(String phone)
+  {
+    if (phone == null)
+      throw new IllegalArgumentException("Phone number is required");
+    String cleaned = phone.replaceAll("\\s+", "");
+    if (!cleaned.matches("\\+?[0-9]{8,15}"))
+      throw new IllegalArgumentException("Invalid phone number format.");
+    return cleaned;
   }
 
   public String getName()
@@ -16,7 +40,7 @@ public class Person
 
   public void setName(String name)
   {
-    this.name = name;
+    this.name = checkName(name);
   }
 
   public String getEmail()
@@ -26,7 +50,7 @@ public class Person
 
   public void setEmail(String email)
   {
-    this.email = email;
+    this.email = checkEmail(email);
   }
 
   public String getPhone()
@@ -36,7 +60,7 @@ public class Person
 
   public void setPhone(String phone)
   {
-    this.phone = phone;
+    this.phone = checkPhone(phone);
   }
 
   public boolean equals(Object obj)
