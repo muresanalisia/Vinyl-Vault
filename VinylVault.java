@@ -20,7 +20,7 @@ public class VinylVault
     return allRecords;
   }
 
-  public Wishlist getAllWishlists()
+  public Wishlist getAllWishlist()
   {
     return allWishlist;
   }
