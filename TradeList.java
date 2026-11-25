@@ -153,6 +153,18 @@ public class TradeList
             toSearch = trade.getRecord().getArtist();
             break;
 
+        case "Barcode":
+            toSearch = trade.getRecord().getBarcode();
+            break;
+
+        case "Version":
+            toSearch = trade.getRecord().getVersion();
+            break;
+
+         case "Notes":
+                toSearch = trade.getNotes();
+                break;
+
         case "Person":
             toSearch = trade.getPerson().getName();
             break;
@@ -181,6 +193,9 @@ public class TradeList
             toSearch = trade.getType() + " "
                 + trade.getRecord().getTitle() + " "
                 + trade.getRecord().getArtist() + " "
+                + trade.getRecord().getBarcode() + " "
+                + trade.getRecord().getVersion() + " "
+                + trade.getNotes() + " "
                 + trade.getPerson().getName() + " "
                 + trade.getPerson().getEmail() + " "
                 + trade.getPerson().getPhone() + " "
