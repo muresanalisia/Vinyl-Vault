@@ -1,20 +1,20 @@
 public class Trade
 {
   private String type;
-  private double deposit;
+  private String notes;
   private Record record;
   private Person person;
   private DateInterval dateInterval;
   private Date returnDate;
 
   public Trade(String type, Record record, Person person,
-      DateInterval dateInterval, double deposit)
+      DateInterval dateInterval, String notes)
   {
     this.type = type;
     this.record = record;
     this.person = person;
     this.dateInterval = dateInterval;
-    this.deposit = deposit;
+    this.notes = notes;
     this.returnDate = null;
   }
 
@@ -38,9 +38,9 @@ public class Trade
     return dateInterval;
   }
 
-  public double getDeposit()
+  public String getNotes()
   {
-    return deposit;
+    return notes;
   }
 
   public Date getReturnDate()
@@ -86,7 +86,7 @@ public class Trade
         + " | Record: " + record
         + " | Person: " + person
         + " | Date interval: " + dateInterval
-        + " | Deposit: " + deposit
+        + " | Notes: " + notes
         + " | Return date: " + returnDate;
   }
 }
