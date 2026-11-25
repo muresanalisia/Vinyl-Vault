@@ -1,4 +1,4 @@
-public class Trade
+public class Trade implements Serializable
 {
   private String type;
   private double deposit;
