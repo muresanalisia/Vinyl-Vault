@@ -1,10 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="CollectionViewController" prefWidth="900" prefHeight="600">
-    <children>
-        <Label text="Collection view (placeholder - replace with the real design from Canva)"/>
-    </children>
-</VBox>
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="CollectionViewController">
+  <VBox spacing="16">
+    <padding><Insets top="20" right="20" bottom="20" left="20"/></padding>
+
+    <!-- Search bar -->
+    <HBox spacing="10">
+      <ComboBox fx:id="fieldBox"/>
+      <TextField fx:id="searchField" promptText="Search..." HBox.hgrow="ALWAYS" onAction="#onSearch"/>
+      <CheckBox fx:id="includeArchiveBox" text="Include archive"/>
+      <Button text="Search" onAction="#onSearch"/>
+    </HBox>
+    <Label fx:id="messageLabel"/>
+
+    <!-- My collection -->
+    <HBox spacing="10">
+      <Label text="My collection" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+      <Button text="Add record" onAction="#onAddRecord"/>
+      <Button text="See all" onAction="#onSeeAllCollection"/>
+    </HBox>
+    <FlowPane fx:id="collectionCards" hgap="10" vgap="10"/>
+
+    <!-- My groupings -->
+    <HBox spacing="10">
+      <Label text="My groupings" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+      <Button text="Add grouping" onAction="#onAddGrouping"/>
+      <Button text="See all" onAction="#onSeeAllGroupings"/>
+    </HBox>
+    <FlowPane fx:id="groupingCards" hgap="10" vgap="10"/>
+
+    <!-- My statistics -->
+    <Label text="My statistics" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <FlowPane hgap="10" vgap="10">
+      <Label fx:id="genreTile" prefWidth="180" wrapText="true" style="-fx-border-color: gray; -fx-padding: 12;"/>
+      <Label fx:id="decadeTile" prefWidth="180" wrapText="true" style="-fx-border-color: gray; -fx-padding: 12;"/>
+      <Label fx:id="artistTile" prefWidth="180" wrapText="true" style="-fx-border-color: gray; -fx-padding: 12;"/>
+      <Label fx:id="lentOutTile" prefWidth="180" wrapText="true" style="-fx-border-color: gray; -fx-padding: 12;"/>
+    </FlowPane>
+  </VBox>
+</ScrollPane>
