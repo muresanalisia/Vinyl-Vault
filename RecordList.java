@@ -10,6 +10,8 @@ public class RecordList
 
   public void addRecord(Record record)
   {
+    if (record == null)
+      throw new IllegalArgumentException("Record is missing");
     recordList.add(record);
   }
 
@@ -50,6 +52,17 @@ public class RecordList
     return archivedRecords;
   }
 
+  // Uses Record.isSameVinyl or null if not found. This is used to avoid duplicates in the collection.
+  public Record findSameVinyl(Record other)
+  {
+    for (Record record : recordList)
+    {
+      if (record.isSameVinyl(other))
+        return record;
+    }
+    return null;
+  }
+
   public int size()
   {
     return recordList.size();
@@ -65,49 +78,57 @@ public class RecordList
     return s;
   }
 
+  //  An empty text matches every record.
+  // field: "Title", "Artist", "Year", "Version", "Genre", "Barcode" - anything else searches all of them.
   public ArrayList<Record> search(String field, String text, boolean archived)
   {
     ArrayList<Record> results = new ArrayList<>();
-    String searchText = text.toLowerCase().trim();
+    String searchText = text == null ? "" : text.toLowerCase().trim();
 
     for(Record record : recordList)
     {
-      if(record.isArchived() == archived)
-      {
-        String toSearch;
-
-        switch(field)
-        {
-          case "Title":
-            toSearch = record.getTitle();
-            break;
-          case "Artist":
-            toSearch = record.getArtist();
-            break;
-          case "Year":
-            toSearch = "" + record.getYear();
-            break;
-          case "Version":
-            toSearch = record.getVersion();
-            break;
-          case "Genre":
-            toSearch = record.getGenre();
-            break;
-          case "Barcode":
-            toSearch = record.getBarcode();
-            break;
-          default:
-            toSearch = record.getTitle() + " "
-                + record.getArtist() + " "
-                + record.getYear() + " "
-                + record.getVersion() + " "
-                + record.getGenre() + " "
-                + record.getBarcode();
-        }
-        if(toSearch.toLowerCase().contains(searchText))
-          results.add(record);
-      }
+      if(record.isArchived() == archived && matches(record, field, searchText))
+        results.add(record);
     }
     return results;
+  }
+
+  // Also used by Wishlist.search
+  public static boolean matches(Record record, String field, String searchText)
+  {
+    String toSearch;
+
+    if (field == null)
+      field = "";
+
+    switch(field)
+    {
+      case "Title":
+        toSearch = record.getTitle();
+        break;
+      case "Artist":
+        toSearch = record.getArtistsText();
+        break;
+      case "Year":
+        toSearch = record.getYear() == 0 ? "" : "" + record.getYear();
+        break;
+      case "Version":
+        toSearch = record.getVersion();
+        break;
+      case "Genre":
+        toSearch = record.getGenresText();
+        break;
+      case "Barcode":
+        toSearch = record.getBarcode();
+        break;
+      default:
+        toSearch = record.getTitle() + " "
+            + record.getArtistsText() + " "
+            + (record.getYear() == 0 ? "" : record.getYear()) + " "
+            + record.getVersion() + " "
+            + record.getGenresText() + " "
+            + record.getBarcode();
+    }
+    return toSearch.toLowerCase().contains(searchText);
   }
 }
