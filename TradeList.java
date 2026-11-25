@@ -150,8 +150,15 @@ public class TradeList
             break;
 
         case "Artist":
-            toSearch = trade.getRecord().getArtist();
-            break;
+            for (String artist : trade.getRecord().getArtists())
+            {
+              if (artist.toLowerCase().contains(searchText))
+              {
+                results.add(trade);
+                break;
+              }
+            }
+            continue;
 
         case "Barcode":
             toSearch = trade.getRecord().getBarcode();
