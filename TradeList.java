@@ -150,7 +150,7 @@ public class TradeList
             break;
 
         case "Artist":
-            for (String artist : trade.getRecord().getArtists())
+            for (String artist : trade.getRecord().getArtist())
             {
               if (artist.toLowerCase().contains(searchText))
               {
