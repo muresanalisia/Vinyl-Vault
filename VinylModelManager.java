@@ -12,7 +12,7 @@ public class VinylModelManager {
         VinylVault loaded = null;
 
         try{
-            Object object = MyFileHandler.readFromBinaryFile(fileName);
+            Object object = MyFileHandler.readFromJson(fileName);
 
             if(object instanceof VinylVault){
                 loaded = (VinylVault) object;
@@ -52,30 +52,69 @@ public class VinylModelManager {
 
     //Records
     public void addRecord(Record record){
+        if(record == null){
+            throw new IllegalArgumentException("Record is required.");
+        }
+
+        if(record.isArchived()){
+            throw new IllegalStateException("Archived records cannot be added.");
+        }
+
         if(vinylVault.getAllRecords().findSameVinyl(record) != null){
             throw new IllegalStateException("This record is already in the collection.");
         }
+
         vinylVault.getAllRecords().addRecord(record);
         saveVinylVault(vinylVault);
     }
 
     public void removeRecord(Record record){
+        if(record == null){
+            throw new IllegalArgumentException("Record is required.");
+        }
+
         if(getActiveTradeForRecord(record) != null){
             throw new IllegalStateException("Return the record before removing it.");
         }
+
+        if(vinylVault.getAllRecords().findSameVinyl(record) == null){
+            throw new IllegalStateException("Record is not in the collection.");
+        }
+
         vinylVault.getAllRecords().removeRecord(record);
         saveVinylVault(vinylVault);
     }
 
     public void archiveRecord(Record record){
+        if(record == null){
+            throw new IllegalArgumentException("Record is required.");
+        }
+
         if(getActiveTradeForRecord(record) != null){
             throw new IllegalStateException("Return the record before archiving it.");
         }
+
+        if(vinylVault.getAllRecords().findSameVinyl(record) == null){
+            throw new IllegalStateException("Record is not in the collection.");
+        }
+
         record.archive();
         saveVinylVault(vinylVault);
     }
 
     public void unarchiveRecord(Record record){
+        if(record == null){
+            throw new IllegalArgumentException("Record is required.");
+        }
+
+        if(vinylVault.getAllRecords().findSameVinyl(record) == null){
+            throw new IllegalStateException("Record is not in the collection.");
+        }
+
+        if(!record.isArchived()){
+            throw new IllegalStateException("This record is not archived.");
+        }
+
         record.unarchive();
         saveVinylVault(vinylVault);
     }
@@ -86,17 +125,45 @@ public class VinylModelManager {
 
     //Wishlist
     public void addToWishlist(Record record){
-        vinylVault.getAllWishlists().addRecord(record);
+        if(record == null){
+            throw new IllegalArgumentException("Record is required.");
+        }
+
+        if(record.isArchived()) {
+            throw new IllegalStateException("Archived records cannot be added.");
+        }
+
+        vinylVault.getAllWishlist().addRecord(record);
         saveVinylVault(vinylVault);
     }
 
     public void removeFromWishlist(Record record){
-        vinylVault.getAllWishlists().removeRecord(record);
+        if(record == null){
+            throw new IllegalArgumentException("Record is required.");
+        }
+
+        if(vinylVault.getAllWishlist().findSameVinyl(record) == null){
+            throw new IllegalStateException("Record is not in the wishlist.");
+        }
+
+        vinylVault.getAllWishlist().removeRecord(record);
         saveVinylVault(vinylVault);
     }
 
     public void moveToCollection(Record record){
-        vinylVault.getAllWishlists().removeRecord(record);
+        if(record == null){
+            throw new IllegalArgumentException("Record is required.");
+        }
+
+        if(vinylVault.getAllWishlist().findSameVinyl(record) == null){
+            throw new IllegalStateException("Record is not in the wishlist.");
+        }
+
+        if(vinylVault.getAllRecords().findSameVinyl(record) != null){
+            throw new IllegalStateException("Record is already in the collection.");
+        }
+
+        vinylVault.getAllWishlist().removeRecord(record);
         vinylVault.getAllRecords().addRecord(record);
 
         saveVinylVault(vinylVault);
@@ -155,20 +222,55 @@ public class VinylModelManager {
         return vinylVault.getAllTrades().hasActiveTradeWithPerson(person);
     }
 
+    private void checkTrade(Record record, Person person, DateInterval interval, double deposit){
+        if(record == null){
+            throw new IllegalArgumentException("Record is required.");
+        }
+
+        if(person == null){
+            throw new IllegalArgumentException("Person is required.");
+        }
+
+        if(interval == null){
+            throw new IllegalArgumentException("Dates are required.");
+        }
+
+        if(deposit < 0){
+            throw new IllegalArgumentException("Deposit cannot be negative.");
+        }
+
+        if(record.isArchived()){
+            throw new IllegalStateException("Archived records cannot be traded.");
+        }
+
+        if(getActiveTradeForRecord(record) != null){
+            throw new IllegalStateException("This record already has an active trade.");
+        }
+    }
+
     public void lendRecord(Record record, Person person, DateInterval interval, double deposit){
-        //Validation
+        checkTrade(record, person, interval, deposit);
+
         Trade trade = new Trade("Lent", record, person, interval, deposit);
+
         vinylVault.getAllTrades().addTrade(trade);
         saveVinylVault(vinylVault);
     }
 
     public void borrowRecord(Record record, Person person, DateInterval interval, double deposit){
+        checkTrade(record, person, interval, deposit);
+
         Trade trade = new Trade("Borrowed", record, person, interval, deposit);
         vinylVault.getAllTrades().addTrade(trade);
+
         saveVinylVault(vinylVault);
     }
 
     public void returnRecord(Trade trade, Date returnDate){
+        if(trade == null){
+            throw new IllegalArgumentException("Trade is required.");
+        }
+
         trade.returnRecord(returnDate);
         saveVinylVault(vinylVault);
     }
@@ -197,6 +299,12 @@ public class VinylModelManager {
     }
 
     public void removePerson(Person person){
+       if(person == null) {
+           throw new IllegalArgumentException("Person is required.");
+       }
+
+       if(vinylVault.getAllPersons()//Finish this one (When person is not in the system)
+
         if(hasActiveTradeWithPerson(person)){
             throw new IllegalStateException("Return all records before removing this person.");
         }
