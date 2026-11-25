@@ -1,9 +1,5 @@
-import java.io.Serializable;
-
-public class VinylVault implements Serializable
+public class VinylVault
 {
-  private static final long serialVersionUID = 1L;
-  
   private PersonList allPersons;
   private TradeList allTrades;
   private RecordList allRecords;
