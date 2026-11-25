@@ -129,11 +129,11 @@ public class TradeList
     public ArrayList<Trade> search(String field, String text)
     {
     ArrayList<Trade> results = new ArrayList<>();
-    if(text == null)
-        return results;
-    String searchText = text.toLowerCase().trim();
-    if(searchText.isEmpty())
-        return results;
+      if (text == null || text.trim().isEmpty())
+      {
+        return new ArrayList<>(tradeList);
+      }
+      String searchText = text.toLowerCase().trim();
 
     for(Trade trade : tradeList)
     {
