@@ -169,10 +169,6 @@ public class TradeList
             toSearch = trade.getPerson().getPhone();
             break;
 
-        case "Deposit":
-            toSearch = String.valueOf(trade.getDeposit());
-            break;
-
         case "Start date":
             toSearch = String.valueOf(trade.getDateInterval().getStartDate());
             break;
@@ -193,7 +189,6 @@ public class TradeList
                 + trade.getPerson().getName() + " "
                 + trade.getPerson().getEmail() + " "
                 + trade.getPerson().getPhone() + " "
-                + trade.getDeposit() + " "
                 + trade.getDateInterval().getStartDate() + " "
                 + trade.getDateInterval().getDueDate() + " "
                 + trade.getReturnDate();
