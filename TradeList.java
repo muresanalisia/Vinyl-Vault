@@ -154,9 +154,6 @@ public class TradeList
     return trade != null && trade.isLent();
   }
 
-    return false;
-  }
-
   public int size()
   {
     return tradeList.size();

@@ -133,6 +133,10 @@ public class VinylModelManager {
             throw new IllegalStateException("Archived records cannot be added.");
         }
 
+        if(vinylVault.getAllWishlist().findSameVinyl(record) != null){
+            throw new IllegalStateException("This record is already in the wishlist.");
+        }
+
         vinylVault.getAllWishlist().addRecord(record);
         saveVinylVault(vinylVault);
     }
@@ -155,6 +159,10 @@ public class VinylModelManager {
             throw new IllegalArgumentException("Record is required.");
         }
 
+        if(record.isArchived()){
+            throw new IllegalStateException("Archived records cannot be moved to the collection.");
+        }
+
         if(vinylVault.getAllWishlist().findSameVinyl(record) == null){
             throw new IllegalStateException("Record is not in the wishlist.");
         }
@@ -169,20 +177,23 @@ public class VinylModelManager {
         saveVinylVault(vinylVault);
     }
 
-    public String getRecordStatus(Record record)
-    {
-    Trade activeTrade = getActiveTradeForRecord(record);
+    public String getRecordStatus(Record record) {
+        if(record == null){
+            throw new IllegalArgumentException("Record is required.");
+        }
 
-    if (activeTrade == null)
+        Trade activeTrade = getActiveTradeForRecord(record);
+
+         if (activeTrade == null)
+            return "In collection";
+
+        if (activeTrade.isLent())
+            return "Lent out";
+
+        if (activeTrade.isBorrowed())
+            return "Borrowed";
+
         return "In collection";
-
-    if (activeTrade.isLent())
-        return "Lent out";
-
-    if (activeTrade.isBorrowed())
-        return "Borrowed";
-
-    return "In collection";
     }
 
     //Loans
@@ -204,6 +215,14 @@ public class VinylModelManager {
     }
 
     public void removeTrade(Trade trade) {
+        if(trade == null){
+            throw new IllegalArgumentException("Trade is required.");
+        }
+
+        if(!vinylVault.getAllTrades().getAllTrades().contains(trade)){
+            throw new IllegalStateException("Trade is not in the system.");
+        }
+
         vinylVault.getAllTrades().removeTrade(trade);
         saveVinylVault(vinylVault);
     }
@@ -222,7 +241,7 @@ public class VinylModelManager {
         return vinylVault.getAllTrades().hasActiveTradeWithPerson(person);
     }
 
-    private void checkTrade(Record record, Person person, DateInterval interval, double deposit){
+    private void checkTrade(Record record, Person person, DateInterval interval){
         if(record == null){
             throw new IllegalArgumentException("Record is required.");
         }
@@ -235,8 +254,12 @@ public class VinylModelManager {
             throw new IllegalArgumentException("Dates are required.");
         }
 
-        if(deposit < 0){
-            throw new IllegalArgumentException("Deposit cannot be negative.");
+        if(vinylVault.getAllRecords().findSameVinyl(record) == null){
+            throw new IllegalStateException("Record is not in the collection.");
+        }
+
+        if(vinylVault.getAllPersons().find(person) == null){
+            throw new IllegalStateException("Person is not in the system.");
         }
 
         if(record.isArchived()){
@@ -248,19 +271,19 @@ public class VinylModelManager {
         }
     }
 
-    public void lendRecord(Record record, Person person, DateInterval interval, double deposit){
-        checkTrade(record, person, interval, deposit);
+    public void lendRecord(Record record, Person person, DateInterval interval, String notes){
+        checkTrade(record, person, interval);
 
-        Trade trade = new Trade("Lent", record, person, interval, deposit);
+        Trade trade = new Trade("Lent", record, person, interval, notes);
 
         vinylVault.getAllTrades().addTrade(trade);
         saveVinylVault(vinylVault);
     }
 
-    public void borrowRecord(Record record, Person person, DateInterval interval, double deposit){
-        checkTrade(record, person, interval, deposit);
+    public void borrowRecord(Record record, Person person, DateInterval interval, String notes){
+        checkTrade(record, person, interval);
 
-        Trade trade = new Trade("Borrowed", record, person, interval, deposit);
+        Trade trade = new Trade("Borrowed", record, person, interval, notes);
         vinylVault.getAllTrades().addTrade(trade);
 
         saveVinylVault(vinylVault);
@@ -269,6 +292,10 @@ public class VinylModelManager {
     public void returnRecord(Trade trade, Date returnDate){
         if(trade == null){
             throw new IllegalArgumentException("Trade is required.");
+        }
+
+        if(!vinylVault.getAllTrades().getAllTrades().contains(trade)){
+            throw new IllegalStateException("Trade is not in the system.");
         }
 
         trade.returnRecord(returnDate);
@@ -282,18 +309,34 @@ public class VinylModelManager {
 
     //Groupings
     public void createGrouping(String name){
+        if(name == null || name.trim().isEmpty()){
+            throw new IllegalArgumentException("Grouping name is required.");
+        }
+
         Grouping grouping = new Grouping(name);
         vinylVault.getAllGroupings().addGrouping(grouping);
         saveVinylVault(vinylVault);
     }
 
     public void removeRecordFromGrouping(Record record, Grouping grouping){
+        if(record == null){
+            throw new IllegalArgumentException("Record is required.");
+        }
+
+        if(grouping == null){
+            throw new IllegalArgumentException("Grouping is required.");
+        }
+
         grouping.removeRecord(record);
         saveVinylVault(vinylVault);
     }
 
     //Persons
     public void addPerson(Person person){
+        if(person == null){
+            throw new IllegalArgumentException("Person is required.");
+        }
+
         vinylVault.getAllPersons().addPerson(person);
         saveVinylVault(vinylVault);
     }
@@ -303,7 +346,9 @@ public class VinylModelManager {
            throw new IllegalArgumentException("Person is required.");
        }
 
-       if(vinylVault.getAllPersons()//Finish this one (When person is not in the system)
+       if(vinylVault.getAllPersons().find(person) == null){
+           throw new IllegalStateException("Person is not in the system.");
+       }
 
         if(hasActiveTradeWithPerson(person)){
             throw new IllegalStateException("Return all records before removing this person.");
