@@ -1,0 +1,40 @@
+<VBox spacing="10"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="your.package.TradesViewController"
+      fx:id="root">
+
+    <Label text="Trades" />
+
+    <TabPane>
+
+        <Tab text="All Trades">
+            <ListView fx:id="allTradesList" />
+        </Tab>
+
+        <Tab text="Lent Records">
+            <ListView fx:id="lentTradesList" />
+        </Tab>
+
+        <Tab text="Borrowed Records">
+            <ListView fx:id="borrowedTradesList" />
+        </Tab>
+
+        <Tab text="Overdue">
+            <ListView fx:id="overdueTradesList" />
+        </Tab>
+
+        <Tab text="History">
+            <ListView fx:id="historyList" />
+        </Tab>
+
+    </TabPane>
+
+    <Label text="Register a return" />
+
+    <DatePicker fx:id="returnDatePicker"
+                promptText="Return date" />
+
+    <Button text="Return selected record"
+            onAction="#returnRecord" />
+
+</VBox>
