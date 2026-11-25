@@ -8,9 +8,11 @@ public class GroupingList {
   }
 
   public void addGrouping(Grouping grouping) {
-    if (grouping != null) {
-      groupings.add(grouping);
-    }
+    if (grouping == null)
+      throw new IllegalArgumentException("Grouping is missing");
+    if (getGroupingByName(grouping.getName()) != null)
+      throw new IllegalArgumentException("A grouping called \"" + grouping.getName() + "\" already exists");
+    groupings.add(grouping);
   }
 
   public void removeGrouping(Grouping grouping) {
@@ -50,8 +52,26 @@ public class GroupingList {
     return archived;
   }
 
+  // Search on the grouping name, ignores case. Empty text shows every grouping.
+  // archived = true searches the archived groupings, false the active ones.
+  public ArrayList<Grouping> search(String text, boolean archived) {
+    ArrayList<Grouping> results = new ArrayList<>();
+    String searchText;
+    if (text == null) {
+      searchText = "";
+    } else {
+      searchText = text.toLowerCase().trim();
+    }
+    for (Grouping grouping : groupings) {
+      if (grouping.isArchived() == archived
+          && grouping.getName().toLowerCase().contains(searchText)) {
+        results.add(grouping);
+      }
+    }
+    return results;
+  }
+
   public int size() {
     return groupings.size();
   }
 }
-
