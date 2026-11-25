@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class TradeList
+public class TradeList implements Serializable
 {
   private ArrayList<Trade> tradeList;
 
