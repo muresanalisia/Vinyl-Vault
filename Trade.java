@@ -10,6 +10,29 @@ public class Trade
   public Trade(String type, Record record, Person person,
       DateInterval dateInterval, String notes)
   {
+    if (type == null ||
+        (!type.equalsIgnoreCase("Lent")
+            && !type.equalsIgnoreCase("Borrowed")))
+    {
+      throw new IllegalArgumentException(
+          "Type must be either 'Lent' or 'Borrowed'.");
+    }
+
+    if (record == null)
+    {
+      throw new IllegalArgumentException("Record is required.");
+    }
+
+    if (person == null)
+    {
+      throw new IllegalArgumentException("Person is required.");
+    }
+
+    if (dateInterval == null)
+    {
+      throw new IllegalArgumentException("Dates are required.");
+    }
+    
     this.type = type;
     this.record = record;
     this.person = person;
@@ -50,16 +73,34 @@ public class Trade
 
   public boolean isLent()
   {
-    return type.equalsIgnoreCase("Lent");
+    return type != null && type.equalsIgnoreCase("Lent");
   }
 
   public boolean isBorrowed()
   {
-    return type.equalsIgnoreCase("Borrowed");
+    return type != null && type.equalsIgnoreCase("Borrowed");
   }
 
   public void returnRecord(Date returnDate)
   {
+    if (isReturned())
+    {
+      throw new IllegalStateException(
+          "This trade has already been returned.");
+    }
+
+    if (returnDate == null)
+    {
+      throw new IllegalArgumentException(
+          "Return date is required.");
+    }
+
+    if (!returnDate.after(dateInterval.getStartDate()))
+    {
+      throw new IllegalArgumentException(
+          "Return date must be after the start date.");
+    }
+    
     this.returnDate = returnDate;
   }
 
