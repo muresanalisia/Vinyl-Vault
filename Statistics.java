@@ -2,19 +2,24 @@ import java.util.ArrayList;
 
 public class Statistics
 {
-  // Ionela-6: only lent trades count
-  public ArrayList<Record> getMostLentOutRecords(TradeList trades)
+  // Records that were lent out the most during the last year (only counts loans that started
+  // within the last year). Several results if there is a tie.
+  public ArrayList<StatResult> getMostLentOutRecords(TradeList trades, Date today)
   {
-    if (trades == null || trades.size() == 0)
-      return new ArrayList<>();
-
     ArrayList<Record> records = new ArrayList<>();
     ArrayList<Integer> counts = new ArrayList<>();
+
+    if (trades == null || today == null)
+      return new ArrayList<>();
+
+    Date oneYearAgo = today.minusYears(1);
 
     for (int i = 0; i < trades.size(); i++)
     {
       Trade trade = trades.getTrade(i);
-      if (!trade.isLent())
+      if (trade == null || !trade.isLent())
+        continue;
+      if (trade.getDateInterval().getStartDate().isBefore(oneYearAgo))
         continue;
 
       Record record = trade.getRecord();
@@ -29,77 +34,102 @@ public class Statistics
     }
 
     int maxCount = 0;
-    for (int count : counts)
-      if (count > maxCount)
-        maxCount = count;
+    for (int i = 0; i < counts.size(); i++)
+    {
+      if (counts.get(i) > maxCount)
+        maxCount = counts.get(i);
+    }
 
-    ArrayList<Record> mostLent = new ArrayList<>();
+    ArrayList<StatResult> mostLent = new ArrayList<>();
     for (int i = 0; i < records.size(); i++)
+    {
       if (counts.get(i) == maxCount && maxCount > 0)
-        mostLent.add(records.get(i));
+      {
+        Record record = records.get(i);
+
+        String name = record.getTitle() + " (" + record.getArtistsText();
+        if (record.getYear() != 0)
+          name += ", " + record.getYear();
+        name += ")";
+
+        mostLent.add(new StatResult(name, maxCount));
+      }
+    }
 
     return mostLent;
   }
 
-  // Ionela-7: only active (non-archived) records
-  public String[] getMostCommonGenres(RecordList records)
+  public ArrayList<StatResult> getMostCommonGenres(RecordList records)
   {
-    ArrayList<String> values = new ArrayList<>();
+    ArrayList<String> genres = new ArrayList<>();
     if (records != null)
-      for (Record r : records.getActiveRecords())
-        values.add(r.getGenre());
-    return mostCommon(values);
+    {
+      ArrayList<Record> active = records.getActiveRecords();
+      for (int i = 0; i < active.size(); i++)
+        genres.addAll(active.get(i).getGenres());
+    }
+    return mostCommon(genres);
   }
 
-  public String[] getMostCommonDecades(RecordList records)
+  public ArrayList<StatResult> getMostCommonDecades(RecordList records)
   {
-    ArrayList<String> values = new ArrayList<>();
+    ArrayList<String> decades = new ArrayList<>();
     if (records != null)
-      for (Record r : records.getActiveRecords())
-        values.add(r.getDecade());
-    return mostCommon(values);
+    {
+      ArrayList<Record> active = records.getActiveRecords();
+      for (int i = 0; i < active.size(); i++)
+      {
+        if (active.get(i).getYear() != 0)
+          decades.add(active.get(i).getDecade());
+      }
+    }
+    return mostCommon(decades);
   }
 
-  public String[] getMostCommonArtists(RecordList records)
+  public ArrayList<StatResult> getMostCommonArtists(RecordList records)
   {
-    ArrayList<String> values = new ArrayList<>();
+    ArrayList<String> artists = new ArrayList<>();
     if (records != null)
-      for (Record r : records.getActiveRecords())
-        values.add(r.getArtist());
-    return mostCommon(values);
+    {
+      ArrayList<Record> active = records.getActiveRecords();
+      for (int i = 0; i < active.size(); i++)
+        artists.addAll(active.get(i).getArtists());
+    }
+    return mostCommon(artists);
   }
 
-  // Ionela-8: the one shared counting helper
-  private String[] mostCommon(ArrayList<String> values)
+  // Private helper that handles the counting and finding max occurrences
+  private ArrayList<StatResult> mostCommon(ArrayList<String> items)
   {
-    ArrayList<String> distinct = new ArrayList<>();
+    ArrayList<String> uniqueItems = new ArrayList<>();
     ArrayList<Integer> counts = new ArrayList<>();
 
-    for (String value : values)
+    for (int i = 0; i < items.size(); i++)
     {
-      if (value == null || value.isEmpty())
-        continue;
-      int index = distinct.indexOf(value);
-      if (index != -1)
-        counts.set(index, counts.get(index) + 1);
-      else
+      String item = items.get(i);
+      if (item != null && !item.isEmpty())
       {
-        distinct.add(value);
-        counts.add(1);
+        int index = uniqueItems.indexOf(item);
+        if (index != -1)
+          counts.set(index, counts.get(index) + 1);
+        else
+        {
+          uniqueItems.add(item);
+          counts.add(1);
+        }
       }
     }
 
     int maxCount = 0;
-    for (int count : counts)
-      if (count > maxCount)
-        maxCount = count;
+    for (int i = 0; i < counts.size(); i++)
+      if (counts.get(i) > maxCount)
+        maxCount = counts.get(i);
 
-    ArrayList<String> result = new ArrayList<>();
-    for (int i = 0; i < distinct.size(); i++)
-      if (counts.get(i) == maxCount && maxCount > 0)
-        result.add(distinct.get(i));
+    ArrayList<StatResult> result = new ArrayList<>();
+    for (int i = 0; i < uniqueItems.size(); i++)
+      if (counts.get(i) == maxCount)
+        result.add(new StatResult(uniqueItems.get(i), maxCount));
 
-    return result.toArray(new String[0]);
+    return result;
   }
-
 }
