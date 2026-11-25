@@ -29,6 +29,47 @@ public class TradeList
     return tradeList;
   }
 
+  public Trade getActiveTradeForRecord(Record record)
+  {
+    if (record == null)
+        return null;
+
+    for (Trade trade : tradeList)
+    {
+        if (trade.getRecord().equals(record) &&
+            trade.getReturnDate() == null)
+        {
+            return trade;
+        }
+    }
+
+    return null;
+  }
+
+  public boolean isRecordBorrowed(Record record)
+  {
+    Trade trade = getActiveTradeForRecord(record);
+
+    return trade != null && trade.isBorrowed();
+  }
+
+  public boolean hasActiveTradeWithPerson(Person person)
+{
+    if (person == null)
+        return false;
+
+    for (Trade trade : tradeList)
+    {
+        if (trade.getPerson().equals(person) &&
+            trade.getReturnDate() == null)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
   public ArrayList<Trade> getActiveLentTrades()
   {
     ArrayList<Trade> activeTrades = new ArrayList<>();
@@ -109,13 +150,9 @@ public class TradeList
 
   public boolean isRecordLentOut(Record record)
   {
-    for (Trade trade : tradeList)
-    {
-      if (trade.getRecord().equals(record)
-          && trade.isLent()
-          && !trade.isReturned())
-        return true;
-    }
+    Trade trade = getActiveTradeForRecord(record);
+    return trade != null && trade.isLent();
+  }
 
     return false;
   }
@@ -193,8 +230,12 @@ public class TradeList
             break;
 
         case "Return date":
-            toSearch = String.valueOf(trade.getReturnDate());
-            break;
+            if (trade.getReturnDate() != null &&
+            trade.getReturnDate().toString().toLowerCase().contains(searchText))
+            {
+              results.add(trade);
+            }
+            continue;
 
         default:
             toSearch = trade.getType() + " "
