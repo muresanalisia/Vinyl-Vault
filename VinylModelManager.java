@@ -92,6 +92,28 @@ public class VinylModelManager {
         saveVinylVault(vinylVault);
     }
 
+    public String getRecordStatus(Record record)
+    {
+    Trade activeTrade = getActiveTradeForRecord(record);
+
+    if (activeTrade == null)
+        return "In collection";
+
+    if (activeTrade.isLent())
+        return "Lent out";
+
+    if (activeTrade.isBorrowed())
+        return "Borrowed";
+
+    return "In collection";
+    }
+
+    if (getActiveTradeForRecord(record) != null)
+    {
+    // Reject archiving/removal
+    return false;
+    }
+
     //Loans
 
     public ArrayList<Trade> getAllTrades() {
@@ -113,6 +135,21 @@ public ArrayList<Trade> getTradeHistory() {
 public void removeTrade(Trade trade) {
     vinylVault.getAllTrades().removeTrade(trade);
     saveVinylVault(vinylVault);
+}
+
+    public Trade getActiveTradeForRecord(Record record)
+{
+    return vinylVault.getAllTrades().getActiveTradeForRecord(record);
+}
+
+public boolean isRecordBorrowed(Record record)
+{
+    return vinylVault.getAllTrades().isRecordBorrowed(record);
+}
+
+public boolean hasActiveTradeWithPerson(Person person)
+{
+    return vinylVault.getAllTrades().hasActiveTradeWithPerson(person);
 }
 
     public void lendRecord(Record record, Person person, DateInterval interval, double deposit){
@@ -159,6 +196,12 @@ public void removeTrade(Trade trade) {
     public void removePerson(Person person){
         vinylVault.getAllPersons().removePerson(person);
         saveVinylVault(vinylVault);
+    }
+
+    if (hasActiveTradeWithPerson(person))
+    {
+        // Reject removal
+        return false;
     }
 
     //Statistics
