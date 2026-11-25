@@ -23,11 +23,11 @@ public class Record {
     this.title = title;
   }
 
-  public ArrayList<String> getArtists() {
+  public ArrayList<String> getArtist() {
     return artists;
   }
 
-  public void setArtists(ArrayList<String> artists) {
+  public void setArtist(ArrayList<String> artists) {
     this.artists = new ArrayList<>(artists);
   }
 
