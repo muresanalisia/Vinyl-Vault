@@ -6,6 +6,8 @@ public class Trade
   private Person person;
   private DateInterval dateInterval;
   private Date returnDate;
+  private String recordBarcode;
+  private String personEmail;
 
   public Trade(String type, Record record, Person person,
       DateInterval dateInterval, String notes)
@@ -39,7 +41,29 @@ public class Trade
     this.dateInterval = dateInterval;
     this.notes = notes;
     this.returnDate = null;
+    this.recordBarcode = record.getBarcode();
+    this.personEmail = person.getEmail();
   }
+
+  public String getRecordBarcode()
+  {
+    return recordBarcode;
+  }
+
+  public String getPersonEmail()
+  {
+    return personEmail;
+  }
+
+  void relink(Record record, Person person)
+  {
+    if (record == null || person == null)
+    {
+        throw new IllegalArgumentException("Record and person must exist.");
+    }
+    this.record = record;
+    this.person = person;
+}
 
   public String getType()
   {
