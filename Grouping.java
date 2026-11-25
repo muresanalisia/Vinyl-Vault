@@ -4,11 +4,22 @@ public class Grouping {
   private String name;
   private boolean archived;
   private ArrayList<Record> records;
+  
+  public Grouping() {
+    this.records = new ArrayList<>();
+  }
 
   public Grouping(String name) {
-    this.name = name;
+    this.name = checkName(name);
     this.archived = false;
     this.records = new ArrayList<>();
+  }
+
+
+  private static String checkName (String name){
+    if (name == null || name.trim().isEmpty())
+      throw new IllegalArgumentException("Grouping name is required");
+    return name.trim();
   }
 
   public String getName() {
@@ -16,11 +27,13 @@ public class Grouping {
   }
 
   public void setName(String name) {
-    this.name = name;
+    this.name = checkName(name);
   }
 
   public void addRecord(Record record) {
-    if (record != null) {
+    if (record == null)
+      throw new IllegalArgumentException("Record is missing");
+    if (!records.contains(record)) {
       records.add(record);
     }
   }
@@ -30,7 +43,7 @@ public class Grouping {
   }
 
   public ArrayList<Record> getAllRecords() {
-    return records;
+    return new ArrayList<>(records);
   }
 
   public int size() {
@@ -57,4 +70,3 @@ public class Grouping {
     }
   }
 }
-
