@@ -102,29 +102,4 @@ public class Statistics
     return result.toArray(new String[0]);
   }
 
-  // Ionela-3/4/5: no Date or isOverDue needed any more
-  public double getReliability(Person person, TradeList trades)
-  {
-    if (person == null || trades == null || trades.size() == 0)
-      return 100.0;
-
-    int totalReturned = 0;
-    int totalOnTime = 0;
-
-    for (int i = 0; i < trades.size(); i++)
-    {
-      Trade trade = trades.getTrade(i);
-      if (trade.getPerson().equals(person) && trade.isLent() && trade.isReturned())
-      {
-        totalReturned++;
-        if (!trade.isReturnedLate())
-          totalOnTime++;
-      }
-    }
-
-    if (totalReturned == 0)
-      return 100.0;
-
-    return ((double) totalOnTime / totalReturned) * 100.0;
-  }
 }
