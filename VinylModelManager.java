@@ -43,10 +43,10 @@ public class VinylModelManager {
 
     public void saveVinylVault(VinylVault vault){
         try{
-            MyFileHandler.writeToBinaryFile(fileName, vault);
+            MyFileHandler.writeToJson(fileName, vault);
         }
         catch(IOException e){
-            System.out.println("Could not save file: "+e.getMessage());
+            throw new IllegalStateException("Could not save file: "+e.getMessage());
         }
     }
 
@@ -68,10 +68,6 @@ public class VinylModelManager {
 
     public ArrayList<Record> searchRecords(String text){
         return vinylVault.getAllRecords().search(text);
-    }
-
-    public ArrayList<Record> getRecordsByGenre(String genre){
-        return vinylVault.getAllRecords().getRecordsByGenre(genre);
     }
 
     //Wishlist
@@ -176,7 +172,7 @@ public boolean hasActiveTradeWithPerson(Person person)
     }
 
     //Groupings
-    public void createGroupings(String name){
+    public void createGrouping(String name){
         Grouping grouping = new Grouping(name);
         vinylVault.getAllGroupings().addGrouping(grouping);
         saveVinylVault(vinylVault);
