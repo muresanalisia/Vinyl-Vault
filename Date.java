@@ -6,9 +6,41 @@ public class Date
 
   public Date(int day, int month, int year)
   {
+    if (year < 1 || year > 9999)
+      throw new IllegalArgumentException("Invalid year: " + year);
+    if (month < 1 || month > 12)
+      throw new IllegalArgumentException("Invalid month: " + month);
+    if (day < 1 || day > daysInMonth(month, year))
+      throw new IllegalArgumentException("Invalid day: " + day);
+
     this.day = day;
     this.month = month;
     this.year = year;
+  }
+
+  public static Date parse(String text)
+  {
+    if (text == null)
+      throw new IllegalArgumentException("Date is missing");
+    String[] parts = text.trim().split("\\.");
+    if (parts.length != 3)
+      throw new IllegalArgumentException("Date must be of format DD.MM.YYYY");
+    try
+    {
+      return new Date(Integer.parseInt(parts[0].trim()),
+          Integer.parseInt(parts[1].trim()), Integer.parseInt(parts[2].trim()));
+    }
+    catch (NumberFormatException e)
+    {
+      throw new IllegalArgumentException("Date must only contain numbers.");
+    }
+  }
+
+  public Date OneYearAgoToday()
+  {
+    int newYear = year-1;
+    int newDay = Math.min(day, daysInMonth(month, newYear));
+    return new Date(newDay, month, newYear);
   }
 
   public int getDay()
