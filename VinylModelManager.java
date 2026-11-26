@@ -297,7 +297,7 @@ public class VinylModelManager {
         saveVinylVault(vinylVault);
     }
 
-    public void returnRecord(Trade trade, Date returnDate, String notes){
+    public void returnRecord(Trade trade, Date returnDate){
         if(trade == null){
             throw new IllegalArgumentException("Trade is required.");
         }
