@@ -254,12 +254,16 @@ public class VinylModelManager {
             throw new IllegalArgumentException("Dates are required.");
         }
 
-        if(vinylVault.getAllRecords().findSameVinyl(record) == null){
-            throw new IllegalStateException("Record is not in the collection.");
-        }
-
         if(vinylVault.getAllPersons().find(person) == null){
             throw new IllegalStateException("Person is not in the system.");
+        }
+
+        if(interval.getDueDate().isBefore(Date.today())){
+            throw new IllegalArgumentException("Due date cannot be in the past");
+        }
+
+        if(interval.getStartDate().isBefore(Date.today())){
+            throw new IllegalArgumentException("Start date cannot be in the past");
         }
 
         if(record.isArchived()){
@@ -273,6 +277,10 @@ public class VinylModelManager {
 
     public void lendRecord(Record record, Person person, DateInterval interval, String notes){
         checkTrade(record, person, interval);
+
+        if(vinylVault.getAllRecords().findSameVinyl(record) == null){
+            throw new IllegalStateException("Record is not in the collection.");
+        }
 
         Trade trade = new Trade("Lent", record, person, interval, notes);
 
@@ -289,7 +297,7 @@ public class VinylModelManager {
         saveVinylVault(vinylVault);
     }
 
-    public void returnRecord(Trade trade, Date returnDate){
+    public void returnRecord(Trade trade, Date returnDate, String notes){
         if(trade == null){
             throw new IllegalArgumentException("Trade is required.");
         }
